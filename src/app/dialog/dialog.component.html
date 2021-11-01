@@ -1,0 +1,103 @@
+<h1>{{data.title}}</h1>
+<ng-template [ngIf]="data.mode != 'Delete'">
+    <form (ngSubmit)="onSubmit(staffForm)" #staffForm="ngForm" [formGroup]
+    ="formValidator" class="form">
+        <table class="full-width" cellspacing="0"><tr>
+            <td><mat-form-field appearence="fill">
+                <mat-label>First Name</mat-label>
+                <input matInput
+                class="full-width"
+                type="text"
+                formControlName="firstName">
+                <mat-error *ngIf="firstName?.invalid">{{getErrorFirstName()}}</mat-error>
+            </mat-form-field></td>
+
+            <td><mat-form-field appearence="fill">
+                <mat-label>Last Name</mat-label>
+                <input matInput
+                class="full-width"
+                type="text"
+                formControlName="lastName">
+                <mat-error *ngIf="lastName?.invalid">{{getErrorLastName()}}</mat-error>
+            </mat-form-field></td>
+        </tr></table>
+
+        <p>
+            <mat-form-field appearence="fill" class="full-width">
+                <mat-label>Title</mat-label>
+                <input matInput
+                type="text"
+                formControlName="title">
+                <mat-error *ngIf="title?.invalid">{{getErrorTitle()}}</mat-error>
+            </mat-form-field>
+        </p>
+
+        <p>
+            <mat-form-field appearence="fill" class="full-width">
+                <mat-label>Email</mat-label>
+                <input matInput
+                type="email"
+                formControlName="email">
+                <mat-error *ngIf="email?.invalid">{{getErrorEmail()}}</mat-error>
+            </mat-form-field>
+        </p>
+
+        <p>
+            <mat-form-field appearence="fill" class="full-width">
+                <mat-label>Role</mat-label>
+                <mat-select formControlName="role">
+                    <mat-option *ngFor="let role of roles" [value]="role">
+                    {{role}}
+                    </mat-option>
+                </mat-select>
+                <mat-error *ngIf="role?.invalid">{{getErrorRole()}}</mat-error>
+            </mat-form-field>
+        </p>
+
+        <ng-template [ngIf]="data.mode == 'Add'">
+            <table class="full-width" cellspacing="0"><tr>
+                <td><mat-form-field appearence="fill">
+                    <mat-label>Password</mat-label>
+                    <input matInput
+                    class="full-width"
+                    type="password"
+                    formControlName="password">
+                    <mat-error *ngIf="formValidator.hasError('required', 'password')">{{getErrorPassword()}}</mat-error>
+                </mat-form-field></td>
+
+                <td><mat-form-field appearence="fill">
+                    <mat-label>Confirm Password</mat-label>
+                    <input matInput
+                    class="full-width"
+                    type="password"
+                    formControlName="confirmPassword"
+                    [errorStateMatcher]="matcher">
+                    <mat-error *ngIf="confirmPassword?.hasError('notSame')">Passwords are not match</mat-error>
+                </mat-form-field></td>
+            </tr></table>
+        </ng-template>
+
+        <table class="full-width" cellspacing="0"><tr>
+            <td><button 
+                mat-raised-button 
+                color="accent" 
+                type="submit" 
+                class="full-width" 
+                [disabled]="data.mode == 'Add' ? (formValidator.invalid) : (firstName?.invalid || lastName?.invalid || title?.invalid || email?.invalid || role?.invalid)">
+                {{data.mode}}
+            </button></td>
+            <td><button type="reset" mat-raised-button color="primary" (click)="exitDialog()" class="full-width">Cancel</button></td>
+        </tr></table>
+    </form>
+</ng-template>
+
+<ng-template [ngIf]="data.mode == 'Delete'">
+    <div class="full-width">
+        <h4>Are you sure want to delete "{{data.data!.firstName}} {{data.data!.lastName}}"</h4>
+    </div>
+
+    <table class="full-width" cellspacing="0"><tr>
+        <td><button mat-raised-button color="accent" type="submit" class="full-width" (click)=delete()>{{data.mode}}</button></td>
+        <td><button type="reset" mat-raised-button color="primary" (click)="exitDialog()" class="full-width">Cancel</button></td>
+    </tr></table>
+</ng-template>

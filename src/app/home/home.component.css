@@ -1,0 +1,40 @@
+.container {
+    margin: 50px;
+    width: 100%;
+}
+
+.center {
+    width: 900px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.table {
+  width: 100%;
+}
+
+.mat-column-title {
+    width: 150px;
+}
+
+.mat-column-email {
+    width: 200px;
+}
+
+.mat-column-role {
+    width: 90px;
+}
+
+.mat-column-action {
+    width: 140px;
+    align-items: center;
+}
+
+.button-container {
+  padding-bottom: 16px;
+}
+
+.button {
+    width: 100%;
+    margin-bottom: 20px;
+}
